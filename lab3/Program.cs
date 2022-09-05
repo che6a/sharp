@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace d0gge
+﻿namespace d0gge
 {
     public class Program
     {

@@ -14,6 +14,7 @@ namespace d0gge
     }
 
     static string s_fileName = "testXml.xml";
+    static string s_allowedExtension = "xml";
     private static void FillAirline(Airline airline, bool printAvgMass = false)
     {
         airline.AddPlane(new CargoPlane("Antonov An-22", airline.RaceNumber, 
@@ -125,7 +126,7 @@ namespace d0gge
         {
             string[] subs = fileName.Split('.');
             string ext = subs[subs.Length - 1];
-            if (!ext.Equals("xml"))
+            if (!ext.Equals(s_allowedExtension))
             {
                 Console.WriteLine("[ERROR]: WRONG FORMAT");
                 End();
