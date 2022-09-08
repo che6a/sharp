@@ -1,22 +1,29 @@
-﻿using System.Net;
-using System.Text.RegularExpressions;
+﻿using System.Text;
 
 namespace d0gge
 {
     public class Program
     {
+        private static readonly string _csv = "emails.csv";
         static void Main()
         {
+            File.WriteAllText(_csv, "");
             string uri = "https://www.susu.ru";
-            string uri2 = "https://www.avito.ru/";
-            WebParser parser = new WebParser();
-            try
+            HashSet<string> emails = new HashSet<string>();
+
+            using (WebParser parser = new WebParser(new Uri(uri)))
             {
-                var res = WebParser.DownloadUrl(uri);
-                parser.SaveToFile("response.txt", res.Result);
+                parser.TargetFound += (string email) => 
+                {
+                    if (emails.Contains(email)) return;
+                    emails.Add(email);
+                    StreamWriter sw = new StreamWriter(_csv, append: true);
+                    sw.WriteLine(email);
+                    Console.WriteLine(email);
+                    sw.Close();
+                };
+               parser.Parse();
             }
-            catch (Exception e) { Console.WriteLine(e.Message); }
-            // client.SaveToFile("response.txt", res.Result);
         }
     }
 }
